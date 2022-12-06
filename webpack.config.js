@@ -1,4 +1,5 @@
-const path = require("path");
+import webpack from "webpack";
+import path from "path";
 
 module.exports = {
   entry: "./src/index.js",
@@ -21,16 +22,22 @@ module.exports = {
     ],
   },
   resolve: {
+    mainFields: ["browser", "module", "main"],
     alias: {
       "~": path.resolve(__dirname, "src"),
     },
     fallback: {
       fs: false,
       stream: false,
-      buffer: false,
+      buffer: require.resolve("buffer/"),
       path: false,
       util: false,
       console: false,
     },
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
 };

@@ -1,4 +1,3 @@
-"use strict";
 const fs = require("fs");
 const gutil = require("gulp-util");
 const through = require("through2");
@@ -32,7 +31,7 @@ module.exports = (options = initialOptions) => {
           .replace(
             new RegExp(`<${name}(.*)?(\\/)?>(.*<\\/${name}>)?`, "gm"),
             (tag) => {
-              if (file.contents.includes(name)) {
+              if (file.contents.toString().includes(name)) {
                 return worker.useProps(component, worker.parseProps(tag));
               }
             }
