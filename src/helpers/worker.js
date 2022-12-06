@@ -8,6 +8,7 @@ module.exports = ({ file, encoding, path }) => ({
 
       return fs
         .readdirSync(BASE_DIR, { withFileTypes: true })
+        .filter(({ name }) => name[0] === name[0].toUpperCase())
         .map(({ name: filename }) => {
           const [name, format] = filename.split(".");
 
@@ -18,9 +19,9 @@ module.exports = ({ file, encoding, path }) => ({
             component: fs.readFileSync(`${BASE_DIR}/${filename}`, encoding),
           };
         })
-        .filter(({ format }) => format === "html");
+        .filter(({ format }) => ["html", "htm"].includes(format));
     } catch (err) {
-      new gutil.PluginError(
+      throw new gutil.PluginError(
         "gulp-html-component",
         `Path "${path}/components" not found.`
       );
@@ -28,8 +29,8 @@ module.exports = ({ file, encoding, path }) => ({
   },
   parseProps(tag) {
     try {
-      return (
-        tag.match(/p-[a-zA-Z]+=".*"/gm)?.reduce((acc, prop) => {
+      const props =
+        tag.match(/p-[a-zA-Z]+=('.*?'|".*?")/gm)?.reduce((acc, prop) => {
           let [key, value] = prop.split("=");
 
           key = key.split("-")[1];
@@ -37,17 +38,25 @@ module.exports = ({ file, encoding, path }) => ({
 
           acc[key] = value;
           return acc;
-        }, {}) || {}
-      );
+        }, {}) || {};
+
+      return props;
     } catch (err) {
-      return {};
+      throw new gutil.PluginError("gulp-html-plugin", err);
     }
   },
   useProps(component, props) {
+    if (!component) {
+      return false;
+    }
+
     component = component.toString();
 
     Object.entries(props).forEach(([key, value]) => {
-      component = component.replace(new RegExp(`{{\\s*?${key}\\s*?}}`, "gm"), value);
+      component = component.replace(
+        new RegExp(`{{\\s*?${key}\\s*?}}`, "gm"),
+        value
+      );
     });
 
     return new Buffer.from(component, encoding);
