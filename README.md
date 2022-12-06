@@ -33,6 +33,24 @@ This package is not available for usage yet
 
 # Usage
 
+## In gulpfile.js
+
+```javascript
+const gulp = require("gulp")
+const htmlComponent = require("gulp-html-component");
+
+gulp.task("handle-html", function() {
+  return gulp.src("your/path")
+    .pipe(htmlComponent({
+      // This props are default, you may not set it
+      path: "./src",
+      encoding: "utf8"
+    }))
+})
+```
+
+## In HTML files
+
 Create `components` dir in `src` directory for usage html components
 
 ```
