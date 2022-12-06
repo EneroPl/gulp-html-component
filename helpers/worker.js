@@ -20,7 +20,6 @@ module.exports = ({ file, encoding, path }) => ({
         })
         .filter(({ format }) => format === "html");
     } catch (err) {
-      console.log(err.message);
       new gutil.PluginError(
         "gulp-html-component",
         `Path "${path}/components" not found.`
@@ -29,7 +28,6 @@ module.exports = ({ file, encoding, path }) => ({
   },
   parseProps(tag) {
     try {
-      console.log(tag);
       return (
         tag.match(/p-[a-zA-Z]+=".*"/gm)?.reduce((acc, prop) => {
           let [key, value] = prop.split("=");
