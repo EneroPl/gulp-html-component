@@ -6,7 +6,11 @@ I thought that both options have disadvantages: Abundance of duplicate code; ext
 
 # Install
 
-This package is not available for usage yet
+```bash
+npm i -D gulp-html-component
+// or
+yarn add -D gulp-html-component
+```
 
 # Props
 
@@ -96,11 +100,7 @@ Use `p-*name*` for thwow prop into your component.
 ```html
 // page.html
 <body>
-  <HelloWorld
-    p-title="This is a title"
-    p-message="This is a message"
-    p-items="["Items", "by", "JSON.stringify"]"
-  />
+  <HelloWorld p-text="Hello World" />
 </body>
 ```
 
@@ -109,14 +109,17 @@ And use `{{ }}` template to paste your prop.
 ```html
 // components/HelloWorld.html
 <div class="component__content">
- <div class="component__title">
-  {{ title }}
- </div>
- <div class="component__message">
-  {{ message }}
- </div>
- <div class="component__items">
-  {{ items }}
- </div>
+ {{ text }}
 </div>
+```
+
+Output:
+
+```html
+// page.html
+<body>
+  <div class="component__content">
+    Hello World
+  </div>
+</body>
 ```
