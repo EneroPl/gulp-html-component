@@ -1,14 +1,13 @@
 {
   "name": "gulp-html-component",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "When we work with static pages, like landing pages or other small-scale projects, there are often blocks of code that have to be duplicated in an html file or given to JavaScript, creating separate block rendering functions.",
   "main": "dist/index.js",
-  "private": true,
   "scripts": {
     "test": "jest",
-    "patch": "git commit -am 'Update version' && git push",
+    "patch": "npm version patch && git commit -am 'Update version' && git push",
     "build": "npx webpack --config webpack.config.js",
-    "publish": "npm run patch && npm run patch && npm version patch && npm publish --access public"
+    "publish": "npm run build && npm run test && npm publish --access public"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
