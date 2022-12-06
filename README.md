@@ -95,7 +95,7 @@ After gulp task completed you can see output like this:
 
 ## Using props in component
 
-Use `p-*name*` for thwow prop into your component.
+Use `p-*name*` for throw prop into your component.
 
 ```html
 // page.html
