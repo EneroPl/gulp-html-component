@@ -37,7 +37,33 @@ module.exports = (options = initialOptions) => {
                 .toString()
                 .replace(
                   new RegExp(`<${name}(.*)?(\\/)?>(.*<\\/${name}>)?`, "gm"),
-                  fs.readFileSync(BASE_DIR + "/" + component.name)
+                  (matched) => {
+                    const props =
+                      matched
+                        .match(/p-[a-zA-Z]+=".*"/gm)
+                        ?.reduce((acc, prop) => {
+                          let [key, value] = prop.split("=");
+
+                          key = key.split("-")[1];
+                          value = JSON.parse(value);
+
+                          acc[key] = value;
+                          return acc;
+                        }, {}) || {};
+
+                    let content = fs
+                      .readFileSync(BASE_DIR + "/" + component.name)
+                      .toString();
+
+                    Object.entries(props).forEach(([key, value]) => {
+                      content = content.replace(
+                        new RegExp(`{{\\s*?${key}\\s*?}}`, "gm"),
+                        value
+                      );
+                    });
+
+                    return new Buffer.from(content, options.encoding);
+                  }
                 )
             );
           }

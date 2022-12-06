@@ -119,37 +119,3 @@ Output:
   </div>
 </body>
 ```
-
-## Using `slots` in component
-
-This plugin uses the HTML5 `<template>` & `<slot>` tags. So if you have questions about how it works, read the documentation.
-
-```html
-// page.html
-<body>
-  <HelloWorld>
-    <template #title>
-      Hello World
-    </template>
-  </HelloWorld>
-</body>
-```
-
-
-```html
-// components/HelloWorld.html
-<div class="component__content">
- <slot name="title"></slot>
-</div>
-```
-
-Output:
-
-```html
-// page.html
-<body>
-  <div class="component__content">
-    Hello World
-  </div>
-</body>
-```
