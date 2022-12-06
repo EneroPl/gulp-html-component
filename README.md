@@ -8,6 +8,29 @@ I thought that both options have disadvantages: Abundance of duplicate code; ext
 
 This package is not available for usage yet
 
+# Props
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>path</code></td>
+    <td>String</td>
+    <td align="center">./src</td>
+    <td>Base path from your project.</td>
+  </tr>
+  <tr>
+    <td><code>encoding</code></td>
+    <td>String</td>
+    <td align="center">utf8</td>
+    <td>Base encoding format of your files.</td>
+  </tr>
+</table>
+
 # Usage
 
 Create `components` dir in `src` directory for usage html components
@@ -39,7 +62,72 @@ Then paste component name into `page.html`
 
 After gulp task completed you can see output like this:
 
+```html
+// page.html
+<body>
+  <div class="component__content">
+    Hello World
+  </div>
+</body>
 ```
+
+## Using props in component
+
+Use `p-*name*` for thwow prop into your component.
+
+```html
+// page.html
+<body>
+  <HelloWorld p-text="Hello World" />
+</body>
+```
+
+And use `{{ }}` template to paste your prop.
+
+```html
+// components/HelloWorld.html
+<div class="component__content">
+ {{ text }}
+</div>
+```
+
+Output:
+
+```html
+// page.html
+<body>
+  <div class="component__content">
+    Hello World
+  </div>
+</body>
+```
+
+## Using `slots` in component
+
+This plugin uses the HTML5 `<template>` & `<slot>` tags. So if you have questions about how it works, read the documentation.
+
+```html
+// page.html
+<body>
+  <HelloWorld>
+    <template #title>
+      Hello World
+    </template>
+  </HelloWorld>
+</body>
+```
+
+
+```html
+// components/HelloWorld.html
+<div class="component__content">
+ <slot name="title"></slot>
+</div>
+```
+
+Output:
+
+```html
 // page.html
 <body>
   <div class="component__content">
