@@ -6,7 +6,11 @@ I thought that both options have disadvantages: Abundance of duplicate code; ext
 
 # Install
 
-This package is not available for usage yet
+```bash
+npm i -D gulp-html-component
+// or
+yarn add -D gulp-html-component
+```
 
 # Props
 

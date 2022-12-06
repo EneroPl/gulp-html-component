@@ -1,6 +1,6 @@
 {
-  "name": "html-components",
-  "version": "1.0.0",
+  "name": "gulp-html-component",
+  "version": "1.0.1",
   "description": "When we work with static pages, like landing pages or other small-scale projects, there are often blocks of code that have to be duplicated in an html file or given to JavaScript, creating separate block rendering functions.",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EneroPl/html-components.git"
+    "url": "git+https://github.com/EneroPl/gulp-html-component.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "EneroPl",
+  "license": "GPL-3.0 license",
   "bugs": {
-    "url": "https://github.com/EneroPl/html-components/issues"
+    "url": "https://github.com/EneroPl/gulp-html-component/issues"
   },
-  "homepage": "https://github.com/EneroPl/html-components#readme",
+  "homepage": "https://github.com/EneroPl/gulp-html-component#readme",
   "devDependencies": {
     "gulp-util": "^3.0.8",
     "i": "^0.3.7",
