@@ -1,0 +1,23 @@
+{
+  "name": "html-components",
+  "version": "1.0.0",
+  "description": "When we work with static pages, like landing pages or other small-scale projects, there are often blocks of code that have to be duplicated in an html file or given to JavaScript, creating separate block rendering functions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EneroPl/html-components.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EneroPl/html-components/issues"
+  },
+  "homepage": "https://github.com/EneroPl/html-components#readme",
+  "devDependencies": {
+    "gulp-util": "^3.0.8",
+    "through2": "^4.0.2"
+  }
+}
