@@ -10,7 +10,7 @@ const worker = Worker(defaultOptions);
 const TEST_NAME = "TestComponent";
 
 function makeTemplate(tagName, props = []) {
-  const propsLine = props.map(({ name, value }) => `p-${name}="${value}"`);
+  const propsLine = props.map(({ name, value }) => `p-bind:${name}="${value}"`);
   return `<${tagName} ${propsLine.join(" ")} />`;
 }
 

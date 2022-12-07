@@ -40,14 +40,14 @@ module.exports = ({ file, encoding, path }) => ({
     component = component.toString();
 
     Object.entries(listeners).forEach(([name, handler]) => {
-      component.replace(new RegExp(`p-bind:${name}`, "gm"), (matched) => {
+      component = component.replace(new RegExp(`p-track:${name}`, "gm"), (matched) => {
         listeners[name] = null;
         return `on${name}="${handler}"`;
       });
     });
 
-    if (component.includes("p-bind:listeners")) {
-      component = component.replace("p-bind:listeners", () => {
+    if (component.includes("p-track:listeners")) {
+      component = component.replace("p-track:listeners", () => {
         return Object.entries(listeners)
           .filter(([_, value]) => !!value)
           .reduce((acc, [key, handler]) => {
@@ -57,18 +57,17 @@ module.exports = ({ file, encoding, path }) => ({
           .join(" ");
       });
     }
+    
     return new Buffer.from(component, encoding);
   },
   parseProps(tag) {
     try {
       const props =
-        tag.match(/p-[a-zA-Z]+=('.*?'|".*?")/gm)?.reduce((acc, prop) => {
-          let [key, value] = prop.split("=");
+        tag.match(/p-bind:([a-zA-Z]+)="(.*?)"/gm)?.reduce((acc, prop) => {
+          const propName = prop.match(/:([a-zA-Z]+)=/)[1];
+          const propValue = prop.match(/"(.*?)"/)[1];
 
-          key = key.split("-")[1];
-          value = JSON.parse(value);
-
-          acc[key] = value;
+          acc[propName] = propValue;
           return acc;
         }, {}) || {};
 
