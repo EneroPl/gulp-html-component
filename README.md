@@ -160,3 +160,4 @@ Or bind not all, but specific properties individually:
   <button p-bind:onclick>Click me</button>
 </div>
 ```
+
