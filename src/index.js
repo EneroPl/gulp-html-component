@@ -32,15 +32,15 @@ module.exports = (options = initialOptions) => {
             new RegExp(`<${name}(.*)?(\\/)?>(.*<\\/${name}>)?`, "gm"),
             (tag) => {
               if (file.contents.toString().includes(name)) {
-                const listeners = worker.parseListeners(tag);
-                const props = worker.parseProps(tag);
+                const listeners = worker.getAttributes(tag, "on");
+                const props = worker.getAttributes(tag, "bind");
 
                 let outputComponent = component;
                 outputComponent = worker.useListeners(
                   outputComponent,
                   listeners
                 );
-                outputComponent = worker.useProps(outputComponent, props);
+                outputComponent = worker.useProps(tag, outputComponent, props);
 
                 return outputComponent;
               }

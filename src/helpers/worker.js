@@ -1,7 +1,27 @@
 const fs = require("fs");
 const gutil = require("gulp-util");
 
-module.exports = ({ file, encoding, path }) => ({
+const parseAttributes = (el, type) => {
+  return (
+    el
+      .match(new RegExp(`p-${type}:[a-zA-Z]+="(.*?)"`, "gm"))
+      ?.reduce((acc, item) => {
+        try {
+          const [eventName, eventHandler] = [
+            item.match(/:([a-zA-Z]+)=/)[1],
+            item.match(/"(.*?)"/)[1],
+          ];
+
+          acc[eventName] = eventHandler;
+          return acc;
+        } catch (err) {
+          return acc;
+        }
+      }, {}) || {}
+  );
+};
+
+module.exports = ({ encoding, path }) => ({
   components() {
     try {
       const BASE_DIR = path + "/components";
@@ -27,27 +47,25 @@ module.exports = ({ file, encoding, path }) => ({
       );
     }
   },
-  parseListeners(tag) {
-    return tag.match(/p-on:[a-zA-Z]+="(.*?)"/gm).reduce((acc, item) => {
-      const eventName = item.match(/:([a-zA-Z]+)=/)[1];
-      const eventHandler = item.match(/"(.*?)"/)[1];
-
-      acc[eventName] = eventHandler;
-      return acc;
-    }, {});
+  getAttributes(tag, type) {
+    try {
+      return parseAttributes(tag, type);
+    } catch (err) {
+      throw new gutil.PluginError("gulp-html-component", err);
+    }
   },
   useListeners(component, listeners) {
     component = component.toString();
 
     Object.entries(listeners).forEach(([name, handler]) => {
-      component = component.replace(new RegExp(`p-track:${name}`, "gm"), (matched) => {
+      component = component.replace(new RegExp(`p-on:${name}`, "gm"), () => {
         listeners[name] = null;
         return `on${name}="${handler}"`;
       });
     });
 
-    if (component.includes("p-track:listeners")) {
-      component = component.replace("p-track:listeners", () => {
+    if (component.includes("p-on:listeners")) {
+      component = component.replace("p-on:listeners", () => {
         return Object.entries(listeners)
           .filter(([_, value]) => !!value)
           .reduce((acc, [key, handler]) => {
@@ -57,26 +75,10 @@ module.exports = ({ file, encoding, path }) => ({
           .join(" ");
       });
     }
-    
+
     return new Buffer.from(component, encoding);
   },
-  parseProps(tag) {
-    try {
-      const props =
-        tag.match(/p-bind:([a-zA-Z]+)="(.*?)"/gm)?.reduce((acc, prop) => {
-          const propName = prop.match(/:([a-zA-Z]+)=/)[1];
-          const propValue = prop.match(/"(.*?)"/)[1];
-
-          acc[propName] = propValue;
-          return acc;
-        }, {}) || {};
-
-      return props;
-    } catch (err) {
-      throw new gutil.PluginError("gulp-html-plugin", err);
-    }
-  },
-  useProps(component, props) {
+  useProps(tag, component, props) {
     if (!component) {
       return false;
     }
@@ -84,11 +86,32 @@ module.exports = ({ file, encoding, path }) => ({
     component = component.toString();
 
     Object.entries(props).forEach(([key, value]) => {
-      component = component.replace(
-        new RegExp(`{{\\s*?${key}\\s*?}}`, "gm"),
-        value
+      const templateMatch = component.match(
+        new RegExp(`{{\\s*?${key}\\s*?}}`, "gm")
       );
+      const attributeMatch = component.match(new RegExp(`p-bind:${key}`, "gm"));
+
+      if (!!templateMatch?.length) {
+        component = component.replace(templateMatch[0], value);
+      }
+
+      if (!!attributeMatch?.length) {
+        component = component.replace(attributeMatch[0], `${key}="${value}"`);
+      }
+
+      return component;
     });
+
+    const classAttribute = tag.match(/class="(.*?)"/gm);
+
+    if (!!classAttribute?.length) {
+      const classes = classAttribute[0].match(/"(.*?)"/)[1];
+
+      component = component.replace(/class="(.*?)"/, (match) => {
+        const componentClasses = match.match(/"(.*?)"/)[1];
+        return `class="${[componentClasses, classes].join(" ")}"`;
+      });
+    }
 
     return new Buffer.from(component, encoding);
   },

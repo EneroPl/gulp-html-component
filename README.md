@@ -108,7 +108,7 @@ gulp.task("handle-html", () => {
 
 ## Props
 
-Property passing is available via the `p-$name$` attribute:
+Property passing is available via the `p-%name%` attribute:
 
 ```html
 // components/Component.html
