@@ -27,6 +27,38 @@ module.exports = ({ file, encoding, path }) => ({
       );
     }
   },
+  parseListeners(tag) {
+    return tag.match(/p-on:[a-zA-Z]+="(.*?)"/gm).reduce((acc, item) => {
+      const eventName = item.match(/:([a-zA-Z]+)=/)[1];
+      const eventHandler = item.match(/"(.*?)"/)[1];
+
+      acc[eventName] = eventHandler;
+      return acc;
+    }, {});
+  },
+  useListeners(component, listeners) {
+    component = component.toString();
+
+    Object.entries(listeners).forEach(([name, handler]) => {
+      component.replace(new RegExp(`p-bind:${name}`, "gm"), (matched) => {
+        listeners[name] = null;
+        return `on${name}="${handler}"`;
+      });
+    });
+
+    if (component.includes("p-bind:listeners")) {
+      component = component.replace("p-bind:listeners", () => {
+        return Object.entries(listeners)
+          .filter(([_, value]) => !!value)
+          .reduce((acc, [key, handler]) => {
+            acc.push(`on${key}="${handler}"`);
+            return acc;
+          }, [])
+          .join(" ");
+      });
+    }
+    return new Buffer.from(component, encoding);
+  },
   parseProps(tag) {
     try {
       const props =

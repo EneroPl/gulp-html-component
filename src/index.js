@@ -32,7 +32,17 @@ module.exports = (options = initialOptions) => {
             new RegExp(`<${name}(.*)?(\\/)?>(.*<\\/${name}>)?`, "gm"),
             (tag) => {
               if (file.contents.toString().includes(name)) {
-                return worker.useProps(component, worker.parseProps(tag));
+                const listeners = worker.parseListeners(tag);
+                const props = worker.parseProps(tag);
+
+                let outputComponent = component;
+                outputComponent = worker.useListeners(
+                  outputComponent,
+                  listeners
+                );
+                outputComponent = worker.useProps(outputComponent, props);
+
+                return outputComponent;
               }
             }
           );
