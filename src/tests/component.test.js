@@ -1,5 +1,5 @@
-import { describe, expect, test } from "@jest/globals";
-import Worker from "./../helpers/worker.js";
+const { describe, expect, test } = require("@jest/globals");
+const Worker = require("./../helpers/worker.js");
 
 const defaultOptions = {
   path: "./src",

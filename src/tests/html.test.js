@@ -1,6 +1,6 @@
-import fs from "fs";
-import { describe, expect, test } from "@jest/globals";
-import Worker from "./../helpers/worker.js";
+const fs = require("fs");
+const { describe, expect, test } = require("@jest/globals");
+const Worker = require("./../helpers/worker.js");
 
 function getExampleFile() {
   return fs.readFileSync("src/Example.html").toString();
