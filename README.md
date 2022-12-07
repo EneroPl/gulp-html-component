@@ -138,16 +138,16 @@ In order to send an event to a component that should fire on the root or specifi
 </div>
 ```
 
-### `p-track` for bind listeners
+### `p-on` for bind listeners
 
-But, if you need to bind an event to a nested element, then `p-track:listeners` will come to the rescue, which will bind all events to the specified element:
+But, if you need to bind an event to a nested element, then `p-on:listeners` will come to the rescue, which will bind all events to the specified element:
 
 ```html
 // components/Component.html
 <div class="component">
   <p class="component__content">{{ content }}</p>
   <!-- Will track listeners to button element -->
-  <button p-track:listeners>Click me</button>
+  <button p-on:listeners>Click me</button>
 </div>
 ```
 
@@ -168,9 +168,9 @@ Or bind not all, but specific properties individually:
 <div class="component">
   <p class="component__content">{{ content }}</p>
   <!-- Will track oninput to input element -->
-  <input type="text" p-track:listeners />
+  <input type="text" p-on:listeners />
   <!-- Will track onclick to button element -->
-  <button p-track:click>Click me</button>
+  <button p-on:click>Click me</button>
 </div>
 ```
 
