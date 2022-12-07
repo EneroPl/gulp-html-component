@@ -39,7 +39,8 @@ To use the plugin in HTML code, you just need to create a file structure where t
 // File structure
 + src
   + components
-  page.html
+    - Component.html
+  - page.html
 ```
 
 ```html
