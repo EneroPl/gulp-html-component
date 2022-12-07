@@ -118,7 +118,7 @@ Property passing is available via the `p-$name$` attribute:
 
 // page.html
 <body>
-  <Component p-content="Hello World" />
+  <Component p-bind:content="Hello World" />
 </body>
 ```
 
@@ -129,7 +129,7 @@ In order to send an event to a component that should fire on the root or specifi
 ```html
 // page.html
 <body>
-  <Component p-content="Hello World" p-on:click="func" />
+  <Component p-bind:content="Hello World" p-on:click="func" />
 </body>
 
 // page.html (output)
@@ -138,15 +138,16 @@ In order to send an event to a component that should fire on the root or specifi
 </div>
 ```
 
-### `p-bind:listeners` for bind listeners
+### `p-track` for bind listeners
 
-But, if you need to bind an event to a nested element, then `p-bind:listeners` will come to the rescue, which will bind all events to the specified element:
+But, if you need to bind an event to a nested element, then `p-track:listeners` will come to the rescue, which will bind all events to the specified element:
 
 ```html
+// components/Component.html
 <div class="component">
   <p class="component__content">{{ content }}</p>
-  <!-- Will bind listeners to button element -->
-  <button p-bind:listeners>Click me</button>
+  <!-- Will track listeners to button element -->
+  <button p-track:listeners>Click me</button>
 </div>
 ```
 
@@ -156,7 +157,7 @@ Or bind not all, but specific properties individually:
 // page.html
 <body>
   <Component
-    p-content="Hello World"
+    p-bind:content="Hello World"
     p-on:click="onClick"
     p-on:focus="onFocus"
     p-on:input="onInput"
@@ -166,16 +167,17 @@ Or bind not all, but specific properties individually:
 // components/Component.html
 <div class="component">
   <p class="component__content">{{ content }}</p>
-  <!-- Will bind oninput to input element -->
-  <input type="text" p-bind:listeners />
-  <!-- Will bind onclick to button element -->
-  <button p-bind:click>Click me</button>
+  <!-- Will track oninput to input element -->
+  <input type="text" p-track:listeners />
+  <!-- Will track onclick to button element -->
+  <button p-track:click>Click me</button>
 </div>
 ```
 
 Output:
 
 ```html
+// page.html (output)
 <body>
   <div class="component">
     <p class="component__content">Hello World</p>
