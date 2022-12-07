@@ -152,12 +152,34 @@ But, if you need to bind an event to a nested element, then `p-bind:listeners` w
 Or bind not all, but specific properties individually:
 
 ```html
+// page.html
+<body>
+  <Component
+    p-content="Hello World"
+    p-on:click="onClick"
+    p-on:focus="onFocus"
+    p-on:input="onInput"
+  />
+</body>
+
+// components/Component.html
 <div class="component">
   <p class="component__content">{{ content }}</p>
   <!-- Will bind oninput to input element -->
-  <input type="text" p-bind:input />
+  <input type="text" p-bind:listeners />
   <!-- Will bind onclick to button element -->
-  <button p-bind:onclick>Click me</button>
+  <button p-bind:click>Click me</button>
 </div>
 ```
 
+Output:
+
+```html
+<body>
+  <div class="component">
+    <p class="component__content">Hello World</p>
+    <input type="text" onfocus="onFocus" oninput="onInput" />
+    <button onclick="onClick">Click me</button>
+  </div>
+</body>
+```
