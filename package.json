@@ -1,9 +1,8 @@
 {
   "name": "gulp-html-component",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "When we work with static pages, like landing pages or other small-scale projects, there are often blocks of code that have to be duplicated in an html file or given to JavaScript, creating separate block rendering functions.",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "test": "jest"
   },

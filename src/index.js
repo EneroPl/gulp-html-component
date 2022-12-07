@@ -1,7 +1,7 @@
 const fs = require("fs");
 const gutil = require("gulp-util");
 const through = require("through2");
-const Worker = require("./helpers/worker");
+const Worker = require("./helpers/worker.js");
 
 const initialOptions = {
   path: "./src",

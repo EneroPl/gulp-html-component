@@ -22,4 +22,18 @@ describe("Validate HTML Markup", () => {
 
     expect(isExistCamelCase).toBeTruthy();
   });
+
+  test("Find only html & htm format", () => {
+    const components = worker.components().map(({ format }) => format);
+    expect(
+      components.every((item) => ["html", "htm"].includes(item))
+    ).toBeTruthy();
+  });
+
+  test("Only CamelCase filenames", () => {
+    const components = worker.components().map(({ name }) => name);
+    expect(
+      components.every((item) => item[0] === item[0].toUpperCase())
+    ).toBeTruthy();
+  });
 });

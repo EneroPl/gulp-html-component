@@ -17,7 +17,7 @@ function makeTemplate(tagName, props = []) {
 describe("Test props throwing", () => {
   test("Correct empty props", () => {
     const template = makeTemplate(TEST_NAME);
-    expect(worker.parseProps(template)).toStrictEqual({});
+    expect(worker.getAttributes(template, "bind")).toStrictEqual({});
   });
 
   test("Correct simple initialization", () => {
@@ -46,8 +46,10 @@ describe("Test props throwing", () => {
     const singlePropTemplate = makeTemplate(TEST_NAME, [props.input[0]]);
     const multiplyPropsTemplate = makeTemplate(TEST_NAME, props.input);
 
-    expect(worker.parseProps(singlePropTemplate)).toEqual(props.output.single);
-    expect(worker.parseProps(multiplyPropsTemplate)).toEqual(
+    expect(worker.getAttributes(singlePropTemplate, "bind")).toEqual(
+      props.output.single
+    );
+    expect(worker.getAttributes(multiplyPropsTemplate, "bind")).toEqual(
       props.output.multiply
     );
   });
@@ -60,7 +62,7 @@ describe("Test props throwing", () => {
       },
     ]);
 
-    expect(worker.parseProps(template)).toEqual({
+    expect(worker.getAttributes(template, "bind")).toEqual({
       prop: "",
     });
   });
